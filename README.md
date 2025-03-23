@@ -1,4 +1,4 @@
-ASSIGNMENT TWO<br/>
+<h2>ASSIGNMENT TWO</h2><br/>
 <h3>UI for API Data</h3>
 Strengthen your ability to apply your knowledge of Web Services
 <h3>Overview</h3>
@@ -8,7 +8,7 @@ Movie Details Screen.<br/>
 Your Ul should include at least two screens: A Movie Search Screen where you
 search for and display movie results (Title, Studio, Rating and Year) and a
 Movie Details Screen where you display the full details of the Movie
-(including the short description and the movie Poster).
+(including the short description and the movie Poster).<br/>
 You will need to register for an API key from the OMDB website (https://
 www.omdbapi.com/)<br/>
 
