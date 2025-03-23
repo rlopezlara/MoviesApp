@@ -13,5 +13,5 @@ You will need to register for an API key from the OMDB website (https://
 www.omdbapi.com/)<br/>
 
 ![image](https://github.com/user-attachments/assets/cceba8bb-51c6-4fc5-bc28-23c7444c323a)
-![image](https://github.com/user-attachments/assets/778c840a-d237-46ba-aeee-07fce3578f5a)
+ ![image](https://github.com/user-attachments/assets/15b492b7-44f2-450c-908b-1108f2e7e1f7)
 ![image](https://github.com/user-attachments/assets/c06fad42-02c1-4636-a753-7efcbab9bcba)
