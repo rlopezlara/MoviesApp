@@ -27,7 +27,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyViewHolder> {
     public MyAdapter(Context context, List<MovieModel> movies, boolean isFavorites) {
         this.context = context;
         this.movies = movies;
-        this.isFavorites = isFavorites; //A boolean flag indicating whether the adapter is being used for the favorites list.
+        this.isFavorites = isFavorites; //A boolean indicating whether the adapter is being used for the favorites list, or Movies list
     }
  
  

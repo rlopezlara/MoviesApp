@@ -40,20 +40,14 @@ public class Favorites extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
 
         // Get the currently logged-in user
-        FirebaseUser currentUser = mAuth.getCurrentUser();
+      FirebaseUser currentUser = mAuth.getCurrentUser();
 
-        // If no user is logged in, show a message and close the activity
-        if (currentUser == null) {
-            Toast.makeText(this, "Please log in to view favorites", Toast.LENGTH_SHORT).show();
-            finish();
-            return;
-        }
         // Get the unique user ID
         String userId = currentUser.getUid();
 
         // If the user ID is null, show an error and close the activity
         if (userId == null) {
-            Toast.makeText(this, "User email not found", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "User not found", Toast.LENGTH_SHORT).show();
             finish();
             return;
         }
@@ -87,7 +81,7 @@ public class Favorites extends AppCompatActivity {
                         return;
                     }
                     // If the snapshot contains data, update the RecyclerView
-                    if (querySnapshot != null && !querySnapshot.isEmpty()) {
+                    if (querySnapshot != null) {
                         List<MovieModel> movieList = new ArrayList<>();
                         for (QueryDocumentSnapshot document : querySnapshot) {
                             MovieModel movie = document.toObject(MovieModel.class);
