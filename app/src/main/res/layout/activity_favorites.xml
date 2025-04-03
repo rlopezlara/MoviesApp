@@ -13,10 +13,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="48dp"
-        android:text="Favourites"
+        android:text="@string/favourites"
         android:textAlignment="center"
         android:textColor="#FAFFFFFF"
-        android:textSize="20sp"
+        android:textSize="25sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -40,16 +40,26 @@
         android:id="@+id/searchBtn"
         android:layout_width="174dp"
         android:layout_height="58dp"
-        android:backgroundTint="#6200EE"
-        android:elevation="4dp"
-        android:text="Search Movie"
-        android:textColor="#FFFFFF"
+        android:text="@string/search_movie"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.146"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/recyclerView"
         app:layout_constraintVertical_bias="0.42" />
+
+    <Button
+        android:id="@+id/favoriteBtn"
+        android:layout_width="174dp"
+        android:layout_height="58dp"
+        android:text="@string/favorites"
+        android:backgroundTint="#008000"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.428"
+        app:layout_constraintStart_toEndOf="@+id/searchBtn"
+        app:layout_constraintTop_toBottomOf="@+id/recyclerView"
+        app:layout_constraintVertical_bias="0.406" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

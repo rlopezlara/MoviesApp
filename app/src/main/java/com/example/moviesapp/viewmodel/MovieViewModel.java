@@ -74,9 +74,10 @@ public class MovieViewModel extends ViewModel {
                             MovieModel movie = new MovieModel(
                                     movieObject.getString("Title"),
                                     movieObject.getString("Year"),
-                                    movieObject.getString("Poster"));
+                                    movieObject.getString("Poster"),
+                                    movieObject.getString("imdbID")
                             // Set the IMDb ID for the movie
-                            movie.setImdbID(movieObject.getString("imdbID")
+
                             );
                             movieList.add(movie);
                         }

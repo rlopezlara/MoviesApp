@@ -38,7 +38,7 @@ public class MovieDetailsActivity extends AppCompatActivity {
         // Inflate the layout using ViewBinding
         binding = ActivityMovieDetailsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
+        // Initialize Firebase authentication and Firestore database
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
 
@@ -52,6 +52,7 @@ public class MovieDetailsActivity extends AppCompatActivity {
         String poster = getIntent().getStringExtra("poster");
         String imdbID = getIntent().getStringExtra("imdbID");
 
+        // Check if any required data is missing
         if (title == null || year == null || poster == null || imdbID == null) {
             Log.e("MovieDetailsActivity", "Received null data in Intent");
             Toast.makeText(this, "Error loading movie details", Toast.LENGTH_SHORT).show();
@@ -74,19 +75,21 @@ public class MovieDetailsActivity extends AppCompatActivity {
         binding.backBtn.setOnClickListener(v -> {
             finish();
         });
-
-        binding.addFavBtn.setOnClickListener(v -> addToFavorites(userId, imdbID));
+        // Set up "Add to Favorites" button to save the movie to Firestore
+        binding.addFavBtn.setOnClickListener(v ->
+                addToFavorites(userId, imdbID));
     }
 
     //Fetches additional movie details from the OMDB API using the IMDb ID.
     private void fetchImdbDetails(String imdbID) {
-// Make an API call to fetch the details
+        // Make an API call to fetch the details
         String url = "https://www.omdbapi.com/?apikey=cf13b29b&i=" + imdbID;
 
 
         ApiClient.get(url, new Callback() {
             @Override
             public void onFailure(@NonNull Call call, @NonNull IOException e) {
+                // Handle network failure by displaying a toast message on the UI thread
                 runOnUiThread(() -> {
                     Toast.makeText(MovieDetailsActivity.this, "Failed to load movie details", Toast.LENGTH_SHORT).show();
                 });
@@ -100,8 +103,10 @@ public class MovieDetailsActivity extends AppCompatActivity {
                     if(response.isSuccessful()) {
 
                         String responseBody = response.body().string();
-
+                        // Convert API response to JSON object
                         JSONObject jsonObject = new JSONObject(responseBody);
+
+
                         // Extract movie details from the response
                         String title = jsonObject.optString("Title", "N/A");
                         String genre = jsonObject.optString("Genre", "N/A");
@@ -109,6 +114,7 @@ public class MovieDetailsActivity extends AppCompatActivity {
                         String rating = jsonObject.optString("imdbRating", "N/A");
                         String description = jsonObject.optString("Plot", "N/A");
 
+                        // Update UI elements with the retrieved data on the main thread
                         runOnUiThread(() -> {
                             binding.movieGenre.setText(genre);
                             binding.movieTitle.setText(title);
@@ -136,12 +142,14 @@ public class MovieDetailsActivity extends AppCompatActivity {
 
         });
     }
+    //Adds the movie to the user's favorites collection in Firestore.
     private void addToFavorites(String userId, String imdbID){
+        // Ensure user is logged in before adding to favorites
         if (userId == null) {
             Toast.makeText(this, "User not logged in!", Toast.LENGTH_SHORT).show();
             return;
         }
-
+        // Create a map to store movie details
         Map<String, Object> movieData = new HashMap<>();
         movieData.put("title", binding.movieTitle.getText().toString());
         movieData.put("year", binding.movieYear.getText().toString());
@@ -152,47 +160,22 @@ public class MovieDetailsActivity extends AppCompatActivity {
         movieData.put("runtime", binding.movieRuntime.getText().toString());
         movieData.put("rating", binding.movieRated.getText().toString());
 
+        // Save the movie to the Firestore "favorites" collection under the current user
         db.collection("users")
                 .document(userId)
                 .collection("favorites")
                 .document(imdbID)
                 .set(movieData)
                 .addOnSuccessListener(aVoid -> {
+                    // Show a success message when the movie is added to favorites
                     Toast.makeText(MovieDetailsActivity.this, "Added to Favorites!", Toast.LENGTH_SHORT).show();
                     Log.i("MovieDetailsActivity", "Movie added to favorites: " + movieData);
                 })
                 .addOnFailureListener(e -> {
+                    // Show an error message if the operation fails
                     Toast.makeText(MovieDetailsActivity.this, "Failed to add to Favorites", Toast.LENGTH_SHORT).show();
                     Log.e("MovieDetailsActivity", "Failed to add movie to favorites", e);
                 });
-    }
-
-    private void updateMovieDetails(String userId, String imdbID) {
-        String newTitle = binding.movieTitle.getText().toString();
-
-        Map<String, Object> movieData = new HashMap<>();
-        movieData.put("title", newTitle);
-        movieData.put("year", binding.movieYear.getText().toString());
-        movieData.put("poster", getIntent().getStringExtra("poster"));
-        movieData.put("imdbID", imdbID);
-        movieData.put("genre", binding.movieGenre.getText().toString());
-        movieData.put("plot", binding.movieDescription.getText().toString());
-        movieData.put("runtime", binding.movieRuntime.getText().toString());
-        movieData.put("rating", binding.movieRated.getText().toString());
-
-        db.collection(userId)
-                .document(imdbID)
-                .set(movieData)
-                .addOnSuccessListener(aVoid -> {
-                    Toast.makeText(this, "Movie updated!", Toast.LENGTH_SHORT).show();
-                })
-                .addOnFailureListener(e -> {
-                    Toast.makeText(this, "Failed to update movie", Toast.LENGTH_SHORT).show();
-                    Log.e("MovieDetailsActivity", "Failed to update movie", e);
-                });
-
-        // go back to favourites activity
-        finish();
     }
 
 }

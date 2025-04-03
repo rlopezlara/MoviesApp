@@ -39,25 +39,12 @@ public class MainActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
 
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-
-        Toast.makeText(MainActivity.this, "registeredUser pass: "+ currentUser.getUid(),
-                Toast.LENGTH_SHORT).show();
-
         // Initialize the ViewModel to observe movie data
         viewModel = new ViewModelProvider(this).get(MovieViewModel.class);
 
-        // Setup RecyclerView with adapter and click listener
-        myAdapter = new MyAdapter(this, new ArrayList<>(), movie -> {
+        //false the adapter is used for general movie search results.
+        myAdapter = new MyAdapter(this, new ArrayList<>(), false);
 
-            // Navigate to the details screen, passing the movie data
-            Intent intent = new Intent(MainActivity.this, MovieDetailsActivity.class);
-            intent.putExtra("title", movie.getTitle());
-            intent.putExtra("year", movie.getYear());
-            intent.putExtra("poster", movie.getPoster());
-            intent.putExtra("imdbID", movie.getImdbID());
-            startActivity(intent);
-        });
 
         // Set up RecyclerView with a LinearLayoutManager for vertical scrolling
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);

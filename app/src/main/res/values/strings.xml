@@ -11,4 +11,10 @@
     <string name="romantic">Romantic</string>
     <string name="_186_min">186 min</string>
     <string name="_2022">2022</string>
+    <string name="favourites">Favourites</string>
+    <string name="search_movie">Search Movie</string>
+    <string name="favorites">Favorites</string>
+    <string name="movie_title">Movie Title</string>
+    <string name="login">Login</string>
+    <string name="register_here">Register here</string>
 </resources>

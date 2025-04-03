@@ -20,7 +20,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import java.util.ArrayList;
 import java.util.List;
 
-
+//Favorites Activity allows users to view their saved favorite movies.
 public class Favorites extends AppCompatActivity {
     private ActivityFavoritesBinding binding;
     private MyAdapter myAdapter;
@@ -31,35 +31,42 @@ public class Favorites extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        // Initialize view binding
         binding = ActivityFavoritesBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        // Initialize Firebase instances
         db = FirebaseFirestore.getInstance();
         mAuth = FirebaseAuth.getInstance();
 
-            // Get current user
+        // Get the currently logged-in user
         FirebaseUser currentUser = mAuth.getCurrentUser();
 
+        // If no user is logged in, show a message and close the activity
         if (currentUser == null) {
             Toast.makeText(this, "Please log in to view favorites", Toast.LENGTH_SHORT).show();
             finish();
             return;
         }
-
+        // Get the unique user ID
         String userId = currentUser.getUid();
 
+        // If the user ID is null, show an error and close the activity
         if (userId == null) {
             Toast.makeText(this, "User email not found", Toast.LENGTH_SHORT).show();
             finish();
             return;
         }
+        // Set up RecyclerView with an empty list initially
+        myAdapter = new MyAdapter(this, new ArrayList<>(), true); // true, the adapter handles displaying favorite movies.
 
-        myAdapter = new MyAdapter(this, new ArrayList<>(), null);
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(this));
         binding.recyclerView.setAdapter(myAdapter);
 
+        // Fetch the user's favorite movies from Firestore
         fetchFavoriteMovies(userId);
 
+        // Set click listener for the search button to navigate back to the main activity
         binding.searchBtn.setOnClickListener(v -> {
             // go to MainActivity
             startActivity(new Intent(getApplicationContext(), MainActivity.class));
@@ -67,19 +74,19 @@ public class Favorites extends AppCompatActivity {
         });
 
     }
-
+    //Fetches the list of favorite movies from Firebase Firestore for the given user
     private void fetchFavoriteMovies(String userId) {
         db.collection("users")
                 .document(userId)
                 .collection("favorites")
-
+                // Handle errors while fetching data
                 .addSnapshotListener((querySnapshot, e) -> {
                     if (e != null) {
                         Toast.makeText(Favorites.this, "Error fetching favorite movies", Toast.LENGTH_SHORT).show();
                         Log.e("FavouritesActivity", "Snapshot listener error", e);
                         return;
                     }
-
+                    // If the snapshot contains data, update the RecyclerView
                     if (querySnapshot != null && !querySnapshot.isEmpty()) {
                         List<MovieModel> movieList = new ArrayList<>();
                         for (QueryDocumentSnapshot document : querySnapshot) {
@@ -93,5 +100,5 @@ public class Favorites extends AppCompatActivity {
                         Toast.makeText(Favorites.this, "No movies found", Toast.LENGTH_SHORT).show();
                     }
                 });
-    }
+        }
 }

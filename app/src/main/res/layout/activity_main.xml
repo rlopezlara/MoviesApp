@@ -5,9 +5,10 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:gravity="center_vertical"
     android:background="#212121"
     tools:context=".view.MainActivity">
-<!--App Title-->
+
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
@@ -19,10 +20,11 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/searchTitle"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.485"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.584" />
 
-<!--Search field to type the movie -->
     <EditText
         android:id="@+id/searchTitle"
         android:layout_width="355dp"
@@ -32,14 +34,11 @@
         android:padding="12dp"
         android:textColor="#FFFFFF"
         android:textColorHint="#BBBBBB"
-        android:textSize="16sp"
-        app:layout_constraintBottom_toTopOf="@+id/recyclerView"
+        android:textSize="17sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.453" />
-<!--Search Button-->
-    <!--Recycler view -->
+        tools:layout_editor_absoluteY="80dp"
+        tools:ignore="MissingConstraints" />
 
     <Button
         android:id="@+id/searchBtn"
@@ -51,12 +50,12 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/searchTitle"
-        app:layout_constraintVertical_bias="0.415" />
+        app:layout_constraintVertical_bias="0.0" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
-        android:layout_width="353dp"
-        android:layout_height="389dp"
+        android:layout_width="355dp"
+        android:layout_height="404dp"
         android:layout_marginBottom="100dp"
         android:contentDescription="List of movies"
         android:importantForAccessibility="yes"
@@ -85,6 +84,7 @@
         android:layout_marginEnd="48dp"
         android:layout_marginBottom="36dp"
         android:text="Favorites"
+        android:backgroundTint="#008000"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />

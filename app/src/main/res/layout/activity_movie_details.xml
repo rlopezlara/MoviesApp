@@ -3,10 +3,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#1E1E1E"
+    android:gravity="center_vertical"
     android:orientation="vertical"
     android:padding="16dp">
 
-    <!-- Movie Poster -->
+
     <ImageView
         android:id="@+id/moviePoster"
         android:layout_width="377dp"
@@ -14,7 +15,7 @@
         android:layout_gravity="center"
         android:scaleType="centerCrop" />
 
-    <!-- Movie Title -->
+
     <TextView
         android:id="@+id/movieTitle"
         android:layout_width="match_parent"
@@ -26,7 +27,7 @@
         android:gravity="center"
         android:layout_marginTop="12dp" />
 
-    <!-- Movie Info Container -->
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -71,14 +72,14 @@
             android:textStyle="bold" />
     </LinearLayout>
 
-    <!-- Movie Description -->
+
     <TextView
         android:id="@+id/movieDescription"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/description"
         android:textColor="#E0E0E0"
-        android:textSize="16sp"
+        android:textSize="17sp"
         android:paddingBottom="80dp"
         android:layout_marginTop="16dp" />
 
@@ -88,7 +89,7 @@
         android:orientation="horizontal"
         android:gravity="center_horizontal"
         android:layout_marginTop="8dp">
-    <!-- Back Button -->
+
         <Button
             android:id="@+id/backBtn"
             android:layout_width="148dp"
@@ -97,7 +98,7 @@
             android:layout_marginRight="25dp"
             android:focusable="true"
             android:text="@string/go_back" />
-    <!--Favourite Btn-->
+
         <Button
             android:id="@+id/addFavBtn"
             android:layout_width="144dp"
@@ -105,7 +106,8 @@
             android:clickable="true"
             android:padding="12dp"
             android:focusable="true"
-            android:text="Add to Favourite" />
+            android:text="Add to Favourite"
+            android:backgroundTint="#008000"/>
 
     </LinearLayout>
 </LinearLayout>

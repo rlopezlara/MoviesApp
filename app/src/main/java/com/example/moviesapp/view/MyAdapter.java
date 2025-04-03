@@ -21,13 +21,13 @@ public class MyAdapter extends RecyclerView.Adapter<MyViewHolder> {
 
     private final List<MovieModel> movies;
     private final Context context;
-    private MovieClickListener clickListener;
+    private final boolean isFavorites;
 
     // Constructor to initialize the adapter with context, movie list, and click listener.
-    public MyAdapter(Context context, List<MovieModel> movies, MovieClickListener listener) {
+    public MyAdapter(Context context, List<MovieModel> movies, boolean isFavorites) {
         this.context = context;
         this.movies = movies;
-        this.clickListener = listener;
+        this.isFavorites = isFavorites; //A boolean flag indicating whether the adapter is being used for the favorites list.
     }
  
  
@@ -56,7 +56,15 @@ public class MyAdapter extends RecyclerView.Adapter<MyViewHolder> {
         // Set up an OnClickListener to launch MovieDetailsActivity with movie data
         holder.itemView.setOnClickListener(v -> {
             // Create intent to navigate to movie details activity
-            Intent intent = new Intent(v.getContext(), MovieDetailsActivity.class);
+            Intent intent;
+            if (isFavorites) {
+                // Redirect to FavoritesDetailsActivity for favorites
+                intent = new Intent(v.getContext(), FavoritesDetails.class);
+            } else {
+                // Redirect to MovieDetailsActivity for API movies
+                intent = new Intent(v.getContext(), MovieDetailsActivity.class);
+            }
+
                 intent.putExtra("title", movie.getTitle());
                 intent.putExtra("year", movie.getYear());
                 intent.putExtra("poster", movie.getPoster());
