@@ -13,23 +13,36 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.example.moviesapp.databinding.ActivityMainBinding;
 import com.example.moviesapp.model.MovieModel;
 import com.example.moviesapp.viewmodel.MovieViewModel;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;
 import java.util.List;
-
+//that allows users to search for movies and view the results in a RecyclerView
+// It integrates with a MovieViewModel to handle the business logic of fetching movie data,
+// displays the data using a RecyclerView, and allows users to click on a movie to navigate to a details screen.
 public class MainActivity extends AppCompatActivity {
     // Binding for the activity layout using ViewBinding
     ActivityMainBinding binding;
+    FirebaseAuth mAuth;
     // ViewModel to manage movie data
     MovieViewModel viewModel;
     // Adapter for the RecyclerView
     MyAdapter myAdapter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        mAuth = FirebaseAuth.getInstance();
+
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+
+        Toast.makeText(MainActivity.this, "registeredUser pass: "+ currentUser.getUid(),
+                Toast.LENGTH_SHORT).show();
 
         // Initialize the ViewModel to observe movie data
         viewModel = new ViewModelProvider(this).get(MovieViewModel.class);
@@ -81,6 +94,12 @@ public class MainActivity extends AppCompatActivity {
             // Trigger the movie search in the ViewModel
             viewModel.searchMovies(searchMovie);
             Log.i("MainActivity", "Searching for: " + searchMovie);
+        });
+    //Favourite tab btn to navigate to the favourite list
+        binding.favTabBtn.setOnClickListener(v -> {
+            Intent intentObj = new Intent(getApplicationContext(), Favorites.class);
+            startActivity(intentObj);
+            finish();
         });
     }
 }

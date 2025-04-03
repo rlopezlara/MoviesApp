@@ -88,24 +88,41 @@
         android:orientation="horizontal"
         android:gravity="center_horizontal"
         android:layout_marginTop="8dp">
-    <!-- Back Button -->
+
         <Button
-            android:id="@+id/backBtn"
+            android:id="@+id/updateBtn"
             android:layout_width="148dp"
             android:layout_height="wrap_content"
             android:clickable="true"
             android:layout_marginRight="25dp"
             android:focusable="true"
-            android:text="@string/go_back" />
-    <!--Favourite Btn-->
+            android:text="Update" />
+
         <Button
-            android:id="@+id/addFavBtn"
+            android:id="@+id/deleteBtn"
             android:layout_width="144dp"
             android:layout_height="wrap_content"
             android:clickable="true"
             android:padding="12dp"
             android:focusable="true"
-            android:text="Add to Favourite" />
+            android:text="Delete" />
 
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_horizontal"
+        android:layout_marginTop="8dp">
+
+        <Button
+            android:id="@+id/backBtn"
+            android:layout_width="144dp"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:padding="12dp"
+            android:focusable="true"
+            android:text="backBtn" />
     </LinearLayout>
 </LinearLayout>

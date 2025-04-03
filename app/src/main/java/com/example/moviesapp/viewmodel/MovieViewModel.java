@@ -39,11 +39,13 @@ public class MovieViewModel extends ViewModel {
         String urlString = "https://www.omdbapi.com/?apikey=cf13b29b&type=movie&s=" + movieTitle;
     //Send a GET request to the API
         ApiClient.get(urlString, new Callback() {
+
             @Override
             public void onFailure(@NonNull Call call, @NonNull IOException e) {
                 Log.e("MovieViewModel", "API call failed: " + e.getMessage());
                 movieData.postValue(new ArrayList<>());
             }
+
             //handles the API response by parsing the JSON data and updating movieData.
             @Override
             public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
@@ -59,7 +61,7 @@ public class MovieViewModel extends ViewModel {
                 try{
                     // Parse the JSON response
                     JSONObject jsonObject = new JSONObject(responseData);
-                    //check if the response is successfull and the object is Search
+
 
                     if(jsonObject.has("Search")) {
 

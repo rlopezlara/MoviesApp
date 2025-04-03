@@ -5,7 +5,8 @@ public class MovieModel {
     private String year;
     private String poster;
 
-
+// Represents a movie object with attributes like title, year, poster, and imdbID.
+//	Provides getters and setters to access and modify movie data
     private String imdbID;
 
 

@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.moviesapp.R;
 import com.example.moviesapp.model.MovieModel;
 
+import java.util.ArrayList;
 import java.util.List;
 //RecyclerView.Adapter subclass for binding movie data to the RecyclerView.
 //This adapter binds a list of MovieModel objects to the views in the RecyclerView.
@@ -28,6 +29,8 @@ public class MyAdapter extends RecyclerView.Adapter<MyViewHolder> {
         this.movies = movies;
         this.clickListener = listener;
     }
+ 
+ 
     //Called to create a new ViewHolder to represent a movie item.
     @NonNull
     @Override
@@ -59,10 +62,10 @@ public class MyAdapter extends RecyclerView.Adapter<MyViewHolder> {
                 intent.putExtra("poster", movie.getPoster());
                 intent.putExtra("imdbID", movie.getImdbID());
 
-            // Log the click for debugging purposes
+
             Log.d("MyAdapter", "Clicked movie: " + movie.getTitle() + ", IMDb ID: " + movie.getImdbID());
 
-            v.getContext().startActivity(intent);
+            v.getContext().startActivity(intent); //start the activity
         });
     }
 

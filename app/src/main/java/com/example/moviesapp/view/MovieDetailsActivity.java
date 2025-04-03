@@ -11,11 +11,16 @@ import com.bumptech.glide.Glide;
 import com.example.moviesapp.R;
 import com.example.moviesapp.databinding.ActivityMovieDetailsBinding;
 import com.example.moviesapp.utils.ApiClient;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -24,6 +29,8 @@ import okhttp3.Response;
 public class MovieDetailsActivity extends AppCompatActivity {
 
     private ActivityMovieDetailsBinding binding;
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +38,13 @@ public class MovieDetailsActivity extends AppCompatActivity {
         // Inflate the layout using ViewBinding
         binding = ActivityMovieDetailsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        mAuth = FirebaseAuth.getInstance();
+        db = FirebaseFirestore.getInstance();
+
+        // Get current user
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        String userId = currentUser.getUid();
 
         // Retrieve movie details from the intent
         String title = getIntent().getStringExtra("title");
@@ -55,18 +69,21 @@ public class MovieDetailsActivity extends AppCompatActivity {
         }
         // Fetch additional movie details using the IMDb ID
         fetchImdbDetails(imdbID);
+
         // Set up the back button to finish the activity when clicked
         binding.backBtn.setOnClickListener(v -> {
             finish();
         });
+
+        binding.addFavBtn.setOnClickListener(v -> addToFavorites(userId, imdbID));
     }
 
     //Fetches additional movie details from the OMDB API using the IMDb ID.
     private void fetchImdbDetails(String imdbID) {
-
+// Make an API call to fetch the details
         String url = "https://www.omdbapi.com/?apikey=cf13b29b&i=" + imdbID;
 
-        // Make an API call to fetch the details
+
         ApiClient.get(url, new Callback() {
             @Override
             public void onFailure(@NonNull Call call, @NonNull IOException e) {
@@ -116,6 +133,66 @@ public class MovieDetailsActivity extends AppCompatActivity {
                 }
             }
 
+
         });
     }
+    private void addToFavorites(String userId, String imdbID){
+        if (userId == null) {
+            Toast.makeText(this, "User not logged in!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        Map<String, Object> movieData = new HashMap<>();
+        movieData.put("title", binding.movieTitle.getText().toString());
+        movieData.put("year", binding.movieYear.getText().toString());
+        movieData.put("poster", getIntent().getStringExtra("poster"));
+        movieData.put("imdbID", imdbID);
+        movieData.put("genre", binding.movieGenre.getText().toString());
+        movieData.put("plot", binding.movieDescription.getText().toString());
+        movieData.put("runtime", binding.movieRuntime.getText().toString());
+        movieData.put("rating", binding.movieRated.getText().toString());
+
+        db.collection("users")
+                .document(userId)
+                .collection("favorites")
+                .document(imdbID)
+                .set(movieData)
+                .addOnSuccessListener(aVoid -> {
+                    Toast.makeText(MovieDetailsActivity.this, "Added to Favorites!", Toast.LENGTH_SHORT).show();
+                    Log.i("MovieDetailsActivity", "Movie added to favorites: " + movieData);
+                })
+                .addOnFailureListener(e -> {
+                    Toast.makeText(MovieDetailsActivity.this, "Failed to add to Favorites", Toast.LENGTH_SHORT).show();
+                    Log.e("MovieDetailsActivity", "Failed to add movie to favorites", e);
+                });
+    }
+
+    private void updateMovieDetails(String userId, String imdbID) {
+        String newTitle = binding.movieTitle.getText().toString();
+
+        Map<String, Object> movieData = new HashMap<>();
+        movieData.put("title", newTitle);
+        movieData.put("year", binding.movieYear.getText().toString());
+        movieData.put("poster", getIntent().getStringExtra("poster"));
+        movieData.put("imdbID", imdbID);
+        movieData.put("genre", binding.movieGenre.getText().toString());
+        movieData.put("plot", binding.movieDescription.getText().toString());
+        movieData.put("runtime", binding.movieRuntime.getText().toString());
+        movieData.put("rating", binding.movieRated.getText().toString());
+
+        db.collection(userId)
+                .document(imdbID)
+                .set(movieData)
+                .addOnSuccessListener(aVoid -> {
+                    Toast.makeText(this, "Movie updated!", Toast.LENGTH_SHORT).show();
+                })
+                .addOnFailureListener(e -> {
+                    Toast.makeText(this, "Failed to update movie", Toast.LENGTH_SHORT).show();
+                    Log.e("MovieDetailsActivity", "Failed to update movie", e);
+                });
+
+        // go back to favourites activity
+        finish();
+    }
+
 }
