@@ -67,6 +67,13 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+        //Sign out the user
+        binding.signOutBtn.setOnClickListener(v -> {
+            Intent intentObj = new Intent(getApplicationContext(), Login.class);
+            startActivity(intentObj);
+
+            finish(); // Finish current activity
+        });
 
         // Set up the search button click listener
         binding.searchBtn.setOnClickListener(v -> {
