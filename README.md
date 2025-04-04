@@ -12,8 +12,8 @@ Mobile application to search movies using an API connection (OMDB website). To a
 
 <h2>Short Video Demostration</h2>
 Youtube : https://www.youtube.com/watch?v=zGxH1iX4Sp4 <br/>
-<h3>Resourch</h3>
-You will need to register for an API key from the OMDB website (https://
+<h3>Resources</h3>
+API OMDB on the website (https://
 www.omdbapi.com/)<br/>
 
 Firebase WebPage: 
